@@ -1,5 +1,9 @@
 if yes?("Use Cucumber behavior testing?", :yellow)
-
+  
+  say("Installing the cucumber environment....", :cyan)
+  
+  @use_cucumber = true
+  
   gem 'database_cleaner', :group => :test
   gem 'cucumber',         :group => :test
   gem 'cucumber-rails',   :group => :test
@@ -32,7 +36,9 @@ if yes?("Use Cucumber behavior testing?", :yellow)
   else
     say("Found launchy gem, skipping installation", :cyan)
   end
-
+  
+  Gem.refresh
+  
   if @use_capybara
     unless Gem.available?("capybara")
       run 'gem install capybara --no-rdoc --no-ri'
@@ -46,7 +52,9 @@ if yes?("Use Cucumber behavior testing?", :yellow)
       say("Found webrat gem, skipping installation", :cyan)
     end
   end
-
+  
+  Gem.refresh
+  
   arguments = [].tap do |arguments|
     arguments << "--webrat"    if @use_capybara.nil?
     arguments << "--capybara"  if @use_capybara.present?
@@ -55,6 +63,6 @@ if yes?("Use Cucumber behavior testing?", :yellow)
 
   generate "cucumber:install #{arguments.join(" ")}"
 
-  get "#{File.dirname(__FILE__)}/resources/cucumber.yml", "config/cucumber.yml", :force => true
+  get "#{@resource_path}/cucumber.yml", "config/cucumber.yml", :force => true
 
 end
