@@ -16,15 +16,15 @@ if @use_rspec
 # == Email Spec
 
 require 'email_spec'
-    
-Spec::Runner.configure do |config|
+
+RSpec::Runner.configure do |config|
   config.include(EmailSpec::Helpers)
   config.include(EmailSpec::Matchers)
 end"
-  end  
+  end
 end
 
 @generate ||= {}
-@generate[:email_spec] = lambda {  
+@generate[:email_spec] = lambda {
   generate "email_spec:steps" if @use_cucumber
 }
